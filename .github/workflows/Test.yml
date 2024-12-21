@@ -1,6 +1,9 @@
 name: Test and Coverage
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
@@ -25,6 +28,8 @@ jobs:
       run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 
     - name: Upload coverage to Codacy
-      uses: codacy/csharp-coverage-reporter-action@v3
-      with:
-        coverage-reports: 'coverage.opencover.xml'
+      env:
+        CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+      run: |
+        curl -Ls https://coverage.codacy.com/get.sh | bash -s report \
+        -r coverage.opencover.xml
