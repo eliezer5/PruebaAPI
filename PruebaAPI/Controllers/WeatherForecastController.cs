@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Cryptography.X509Certificates;
 
 namespace PruebaAPI.Controllers
 {
@@ -15,14 +16,15 @@ namespace PruebaAPI.Controllers
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
+            int d = 2;
             _logger = logger;
         }
-        public int d2 = 22;
-        public int d4 = 22;
-        public int d3 = 22;
+       
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
+
+           PublicKey publicKey = null;
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
