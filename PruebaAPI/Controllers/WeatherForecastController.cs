@@ -17,7 +17,9 @@ namespace PruebaAPI.Controllers
         {
             _logger = logger;
         }
-
+        public int d2 = 22;
+        public int d4 = 22;
+        public int d3 = 22;
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
