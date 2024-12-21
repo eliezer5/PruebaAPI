@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,6 +30,4 @@ jobs:
     - name: Upload coverage to Codacy
       env:
         CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
-      run: |
-        curl -Ls https://coverage.codacy.com/get.sh | bash -s report \
-        -r coverage.opencover.xml
+      run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r coverage.opencover.xml
