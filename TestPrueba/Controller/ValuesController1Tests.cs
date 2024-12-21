@@ -36,5 +36,16 @@ namespace TestPrueba.Controller
                 Assert.IsType<DateOnly>(forecast.Date);
             }
         }
+
+        [Fact]
+        public void Get_ReturnsExpectedNumberOfItems()
+        {
+            // Act
+            var result = _controller.Get();
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(5, result.Count());
+        }
     }
 }
