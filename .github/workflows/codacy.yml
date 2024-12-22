@@ -2,11 +2,9 @@ name: Codacy Coverage and Security Scan
 
 on:
   push:
-    branches:
-      - master
+    branches: [ "master" ]
   pull_request:
-    branches:
-      - master
+    branches: [ "master" ]
 
 permissions:
   contents: read
@@ -28,17 +26,23 @@ jobs:
         with:
           dotnet-version: "8.0"
 
-      # Step 3: Install dependencies
-      - name: Install dependencies
-        run: dotnet restore
-
-      # Step 4: Run tests and generate coverage
+      # Step 3: Run tests and generate coverage
       - name: Run tests and generate coverage
-        run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./coverage.opencover.xml
+        run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=/tmp/coverage.opencover.xml
+
+      # Step 4: Verify coverage file
+      - name: Verify coverage file
+        run: |
+          if [ ! -f /tmp/coverage.opencover.xml ]; then
+            echo "Coverage file not found!"
+            exit 1
+          else
+            echo "Coverage file generated successfully."
+          fi
 
       # Step 5: Upload coverage to Codacy
       - name: Upload coverage to Codacy
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
         run: |
-          bash <(curl -Ls https://coverage.codacy.com/get.sh)
+          bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r /tmp/coverage.opencover.xml
