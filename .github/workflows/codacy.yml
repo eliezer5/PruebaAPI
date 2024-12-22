@@ -46,7 +46,7 @@ jobs:
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
         run: |
-          bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r TestResults/coverage.opencover.xml
+          bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r TestPrueba/coverage.opencover.xml
 
       # Step 6: Run Codacy Analysis CLI for security issues
       - name: Run Codacy Analysis CLI
