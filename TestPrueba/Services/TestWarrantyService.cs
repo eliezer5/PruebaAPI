@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shared.Models;
-using SistemaLlavesWebAPI.Dal;
-using SistemaLlavesWebAPI.Services;
-using System;
+using PruebaAPI.Dal;
+using PruebaAPI.Services;
 using System.Threading.Tasks;
 using Xunit;
 

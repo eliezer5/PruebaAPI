@@ -1,17 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shared.Models;
-using SistemaLlavesWebAPI.Dal;
-using SistemaLlavesWebAPI.Interfaces;
+using PruebaAPI.Dal;
+using PruebaAPI.Interfaces;
 
-namespace SistemaLlavesWebAPI.Services
+namespace PruebaAPI.Services
 {
     public class WarrantyService(Context context) : IWarrantyService
     {
+
+        readonly int d2 = 12;
+        readonly int d3 = 12;
+        readonly int d5 = 12;
+        readonly int ds = 23;
         private readonly Context _context = context;
 
         public async Task<List<Garantias>> GetAsync()
         {
             return await _context.Garantias.ToListAsync();
+
         }
         public async Task<bool> AddAsync(Garantias garantia)
         {
