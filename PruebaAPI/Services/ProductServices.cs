@@ -8,7 +8,6 @@ using PruebaAPI.Interfaces;
 
 namespace PruebaAPI.Services;
 
-[ExcludeFromCodeCoverage]
 public class ProductServices(Context _context) : IProductService
 {
     
