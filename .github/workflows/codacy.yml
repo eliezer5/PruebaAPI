@@ -49,7 +49,7 @@ jobs:
 
       # Step 6: Run Codacy Analysis CLI (Quality and Security)
       - name: Run Codacy Analysis CLI
-        uses: codacy/codacy-analysis-cli-action@v1
+        uses: codacy/codacy-analysis-cli-action@d840f886c4bd4edc059706d09c6a1586111c540b
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           verbose: true
