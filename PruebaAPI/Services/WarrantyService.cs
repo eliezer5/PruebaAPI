@@ -39,13 +39,6 @@ namespace SistemaLlavesWebAPI.Services
             return warranty;
         }
 
-        public async Task<Garantias> DeleteAsync2(int id)
-        {
-            var warranty = await _context.Garantias.FindAsync(id) ?? throw new KeyNotFoundException($"Warranty with ID {id} was not found.");
-            _context.Garantias.Remove(warranty);
-            await _context.SaveChangesAsync();
-
-            return warranty;
-        }
+       
     }
 }
