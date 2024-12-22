@@ -56,11 +56,12 @@ jobs:
 
       # Paso 7: Verificar archivo de cobertura
       - name: Verify coverage file
+        shell: powershell
         run: |
-          if [ ! -f /tmp/coverage.opencover.xml ]; then
-            echo "Coverage file not found!"
+          if (!(Test-Path -Path "$env:TEMP\coverage.opencover.xml")) {
+            Write-Host "Coverage file not found!"
             exit 1
-          fi
+          }
 
       # Paso 8: Construir y analizar con SonarQube
       - name: Build and analyze with SonarQube
