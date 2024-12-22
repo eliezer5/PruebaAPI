@@ -1,4 +1,7 @@
 
+using Microsoft.EntityFrameworkCore;
+using SistemaLlavesWebAPI.Dal;
+
 namespace PruebaAPI
 {
     public class Program
@@ -13,7 +16,11 @@ namespace PruebaAPI
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
+             var ConStr = 
+                builder.Configuration.GetConnectionString("ConStr");
+            
+            builder.Services.AddDbContext<Context>(options =>
+                options.UseSqlServer(ConStr));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
