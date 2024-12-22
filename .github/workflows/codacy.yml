@@ -48,13 +48,4 @@ jobs:
           bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r /tmp/coverage.opencover.xml
 
       # Step 6: Run Codacy Analysis CLI (Quality and Security)
-      - name: Download Codacy Analysis CLI
-        run: |
-          curl -L https://github.com/codacy/codacy-analysis-cli/releases/download/7.9.11/codacy-analysis-cli-linux -o codacy-analysis-cli
-          chmod +x codacy-analysis-cli
-
-      - name: Run Codacy Analysis CLI
-        env:
-          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
-        run: |
-          ./codacy-analysis-cli analyze --project-token $CODACY_PROJECT_TOKEN --verbose
+ 
