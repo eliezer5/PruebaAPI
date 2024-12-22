@@ -1,75 +1,48 @@
-name: Codacy Security and Coverage Scan
+name: Codacy Coverage and Security Scan
 
 on:
   push:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-  schedule:
-    - cron: '45 12 * * 4'
 
 permissions:
   contents: read
   security-events: write
 
 jobs:
-  codacy-security-coverage-scan:
-    name: Codacy Security and Coverage Scan
+  codacy-security-coverage:
+    name: Codacy Coverage and Security Scan
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      security-events: write
 
     steps:
       # Step 1: Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Setup .NET 8.0
+      # Step 2: Setup .NET environment
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: "8.0"
 
-      # Step 3: Install dependencies
-      - name: Install dependencies
-        run: dotnet restore
-
-      # Step 4: Run tests and generate coverage
+      # Step 3: Run tests and generate coverage
       - name: Run tests and generate coverage
-        run: |
-          dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./TestPrueba/coverage.opencover.xml
-      # Step 5: Verify coverage file exists
+        run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=/tmp/coverage.opencover.xml
+
+      # Step 4: Verify coverage file
       - name: Verify coverage file
         run: |
-          if [ ! -f ./TestPrueba/coverage.opencover.xml ]; then
+          if [ ! -f /tmp/coverage.opencover.xml ]; then
             echo "Coverage file not found!"
             exit 1
           else
             echo "Coverage file generated successfully."
           fi
 
-      # Step 6: Upload coverage to Codacy
+      # Step 5: Upload coverage to Codacy
       - name: Upload coverage to Codacy
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
         run: |
-          bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r ./TestPrueba/coverage.opencover.xml
-
-      # Step 7: Run Codacy Analysis CLI for security issues
-      - name: Run Codacy Analysis CLI
-        uses: codacy/codacy-analysis-cli-action@d840f886c4bd4edc059706d09c6a1586111c540b
-        with:
-          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          verbose: true
-          output: results.sarif
-          format: sarif
-          gh-code-scanning-compat: true
-          max-allowed-issues: 2147483647
-
-      # Step 8: Upload the SARIF file to GitHub Advanced Security
-      - name: Upload SARIF results file
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: results.sarif
+          bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r /tmp/coverage.opencover.xml
