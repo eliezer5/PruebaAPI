@@ -28,7 +28,9 @@ jobs:
 
       # Step 3: Run tests and generate coverage
       - name: Run tests and generate coverage
-        run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=/tmp/coverage.opencover.xml
+        run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover \
+                     /p:Exclude="[Shared.*]*" \
+                     /p:CoverletOutput=/tmp/coverage.opencover.xml
 
       # Step 4: Verify coverage file
       - name: Verify coverage file
