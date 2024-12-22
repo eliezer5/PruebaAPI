@@ -9,5 +9,7 @@ public interface IWarrantyService
     public Task<Garantias> PutAsync(Garantias garantia);
     public Task<Garantias> DeleteAsync(int id);
 
+      
+
 
 }
