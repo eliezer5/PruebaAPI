@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shared.Models;
-using SistemaLlavesWebAPI.Dal;
-using SistemaLlavesWebAPI.Interfaces;
+using PruebaAPI.Dal;
+using PruebaAPI.Interfaces;
 
-namespace SistemaLlavesWebAPI.Services
+namespace PruebaAPI.Services
 {
     public class WarrantyService(Context context) : IWarrantyService
     {
