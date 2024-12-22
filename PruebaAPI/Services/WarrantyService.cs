@@ -17,6 +17,7 @@ namespace PruebaAPI.Services
         public async Task<List<Garantias>> GetAsync()
         {
             return await _context.Garantias.ToListAsync();
+
         }
         public async Task<bool> AddAsync(Garantias garantia)
         {
