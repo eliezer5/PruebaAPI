@@ -31,7 +31,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: "6.0"
+          dotnet-version: "8.0"
 
       # Step 3: Install dependencies
       - name: Install dependencies
