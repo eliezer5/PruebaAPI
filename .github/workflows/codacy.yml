@@ -18,37 +18,46 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: read # Needed to fetch the code
-      security-events: write # Required to upload SARIF results for GitHub's Advanced Security
-      actions: read # Needed for private repositories
+      contents: read
+      security-events: write
 
     steps:
       # Step 1: Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Set up .NET environment (if your project is in .NET)
+      # Step 2: Setup .NET 8.0
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: "6.0"
+          dotnet-version: "8.0"
 
       # Step 3: Install dependencies
       - name: Install dependencies
         run: dotnet restore
 
-      # Step 4: Run tests with coverage enabled
+      # Step 4: Run tests and generate coverage
       - name: Run tests and generate coverage
-        run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+        run: |
+          dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./TestPrueba/coverage.opencover.xml
+      # Step 5: Verify coverage file exists
+      - name: Verify coverage file
+        run: |
+          if [ ! -f ./TestPrueba/coverage.opencover.xml ]; then
+            echo "Coverage file not found!"
+            exit 1
+          else
+            echo "Coverage file generated successfully."
+          fi
 
-      # Step 5: Upload test coverage to Codacy
+      # Step 6: Upload coverage to Codacy
       - name: Upload coverage to Codacy
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
         run: |
-          bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r TestResults/coverage.opencover.xml
+          bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r ./TestPrueba/coverage.opencover.xml
 
-      # Step 6: Run Codacy Analysis CLI for security issues
+      # Step 7: Run Codacy Analysis CLI for security issues
       - name: Run Codacy Analysis CLI
         uses: codacy/codacy-analysis-cli-action@d840f886c4bd4edc059706d09c6a1586111c540b
         with:
@@ -59,7 +68,7 @@ jobs:
           gh-code-scanning-compat: true
           max-allowed-issues: 2147483647
 
-      # Step 7: Upload the SARIF file to GitHub Advanced Security
+      # Step 8: Upload the SARIF file to GitHub Advanced Security
       - name: Upload SARIF results file
         uses: github/codeql-action/upload-sarif@v3
         with:
