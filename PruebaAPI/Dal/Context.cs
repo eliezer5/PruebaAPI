@@ -11,4 +11,10 @@ public class Context : DbContext
     public DbSet<Compras> Compras { get; set; }
     public DbSet<ComprasDetalle> ComprasDetalle { get; set; }
 
+    public DbSet<Categorias> Categorias { get; set; }
+
+    public DbSet<Productos> Productos { get; set; }
+    public DbSet<Proveedores> Proveedores { get; set; }
+
+
 }

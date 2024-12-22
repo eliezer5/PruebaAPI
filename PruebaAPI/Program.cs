@@ -1,6 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
-using SistemaLlavesWebAPI.Dal;
+using PruebaAPI.Dal;
 
 namespace PruebaAPI
 {
