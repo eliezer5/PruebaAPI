@@ -23,7 +23,7 @@ namespace TestPrueba.Controller
         }
 
         [Fact]
-        public void Get_ReturnsValidWeatherForecastObjects()
+        public void Get_ReturnsValidForeCastObjects()
         {
             // Act
             var result = _controller.Get();
@@ -38,7 +38,7 @@ namespace TestPrueba.Controller
         }
 
         [Fact]
-        public void Get_ReturnsExpectedNumberOfItems()
+        public void Get_ReturnsExpectedItems()
         {
             // Act
             var result = _controller.Get();
