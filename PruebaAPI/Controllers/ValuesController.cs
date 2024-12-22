@@ -19,6 +19,8 @@ namespace PruebaAPI.Controllers
         public ValuesController(ILogger<ValuesController> logger)
         {
             _logger = logger;
+
+
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
