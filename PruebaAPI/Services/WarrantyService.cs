@@ -11,6 +11,7 @@ namespace PruebaAPI.Services
         readonly int d2 = 12;
         readonly int d3 = 12;
         readonly int d5 = 12;
+        readonly int ds = 23;
         private readonly Context _context = context;
 
         public async Task<List<Garantias>> GetAsync()
