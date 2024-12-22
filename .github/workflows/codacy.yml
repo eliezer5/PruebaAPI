@@ -1,4 +1,4 @@
-name: Codacy Coverage and Security Scan
+name: Codacy Coverage and Quality Analysis
 
 on:
   push:
@@ -11,8 +11,8 @@ permissions:
   security-events: write
 
 jobs:
-  codacy-security-coverage:
-    name: Codacy Coverage and Security Scan
+  codacy-quality-and-coverage:
+    name: Codacy Coverage and Quality Analysis
     runs-on: ubuntu-latest
 
     steps:
@@ -46,3 +46,10 @@ jobs:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
         run: |
           bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r /tmp/coverage.opencover.xml
+
+      # Step 6: Run Codacy Analysis CLI (Quality and Security)
+      - name: Run Codacy Analysis CLI
+        uses: codacy/codacy-analysis-cli-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          verbose: true
