@@ -69,8 +69,9 @@ namespace TestPrueba.Services
             var result = await _service.PutAsync(updatedProduct);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.Equal("Producto Actualizado", result.Descripcion);
+            var dbPurchase = await _context.Productos.FindAsync(1);
+            Assert.NotNull(dbPurchase);
+            Assert.Equal(updatedProduct.Descripcion, dbPurchase.Descripcion);
         }
 
         [Fact]

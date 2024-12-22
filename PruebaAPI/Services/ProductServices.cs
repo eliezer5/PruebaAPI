@@ -22,6 +22,11 @@ public class ProductServices(Context _context) : IProductService
     }
     public async Task<Productos> PutAsync(Productos producto)
     {
+        var existingProduct = await _context.Productos.FindAsync(producto.ProductoId) ??
+               throw new KeyNotFoundException($"Compra with ID {producto.ProductoId} was not found");
+
+        _context.Entry(existingProduct).State = EntityState.Detached;
+
         var result = _context.Productos.Update(producto);
         await _context.SaveChangesAsync();
         return result.Entity;
