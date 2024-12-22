@@ -26,11 +26,18 @@ jobs:
         with:
           dotnet-version: "8.0"
 
-      # Step 3: Run tests and generate coverage
-      - name: Run tests and generate coverage
-        run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=/tmp/coverage.opencover.xml
+      # Step 3: Clean and restore
+      - name: Clean project
+        run: dotnet clean
 
-      # Step 4: Verify coverage file
+      - name: Restore dependencies
+        run: dotnet restore
+
+      # Step 4: Run tests and generate coverage
+      - name: Run tests and generate coverage
+        run: dotnet test TestPrueba/TestPrueba.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Exclude="[Shared.*]*" /p:CoverletOutput=/tmp/coverage.opencover.xml
+
+      # Step 5: Verify coverage file
       - name: Verify coverage file
         run: |
           if [ ! -f /tmp/coverage.opencover.xml ]; then
@@ -40,7 +47,7 @@ jobs:
             echo "Coverage file generated successfully."
           fi
 
-      # Step 5: Upload coverage to Codacy
+      # Step 6: Upload coverage to Codacy
       - name: Upload coverage to Codacy
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
