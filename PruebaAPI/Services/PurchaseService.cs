@@ -29,6 +29,9 @@ namespace PruebaAPI.Services
             await _context.SaveChangesAsync();
 
             return puchase;
+
+
+
         }
 
         public async Task<Compras> PutAsync(Compras compra)
