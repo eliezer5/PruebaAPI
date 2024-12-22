@@ -51,10 +51,8 @@ jobs:
 
       # Paso 6: Ejecutar pruebas y generar cobertura en directorio temporal
       - name: Run tests and generate coverage
-        shell: powershell
-        continue-on-error: true
         run: |
-          dotnet test --collect:"XPlat Code Coverage" /p:CoverletOutputFormat=opencover /p:CoverletOutput=${{ runner.temp }}/coverage.opencover.xml
+          dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=${{ runner.temp }}/coverage.opencover.xml
 
       # Paso 7: Verificar archivo de cobertura en directorio temporal
       - name: Verify coverage file
