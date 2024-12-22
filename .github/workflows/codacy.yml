@@ -13,21 +13,29 @@ permissions:
   security-events: write
 
 jobs:
-  codacy-analysis:
-    name: Codacy Coverage and Security Analysis
+  codacy-coverage-scan:
+    name: Codacy Coverage Scan
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read # Para actions/checkout para obtener el código
+
     steps:
+      # Paso 1: Checkout del repositorio
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Paso 2: Configurar el entorno de .NET
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: "8.0"
 
+      # Paso 3: Ejecutar pruebas y generar cobertura
       - name: Run tests and generate coverage
         run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=/tmp/coverage.opencover.xml
 
+      # Paso 4: Verificar archivo de cobertura
       - name: Verify coverage file
         run: |
           if [ ! -f /tmp/coverage.opencover.xml ]; then
@@ -35,13 +43,28 @@ jobs:
             exit 1
           fi
 
+      # Paso 5: Subir cobertura a Codacy
       - name: Upload coverage to Codacy
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
         run: |
           bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r /tmp/coverage.opencover.xml
 
-      - name: Run Codacy Analysis CLI for security scan
+  codacy-security-scan:
+    name: Codacy Security Scan
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read # Para actions/checkout para obtener el código
+      security-events: write # Para github/codeql-action/upload-sarif para subir resultados SARIF
+
+    steps:
+      # Paso 1: Checkout del repositorio
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Paso 2: Ejecutar Codacy Analysis CLI y generar archivo SARIF
+      - name: Run Codacy Analysis CLI
         uses: codacy/codacy-analysis-cli-action@d840f886c4bd4edc059706d09c6a1586111c540b
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
@@ -50,6 +73,7 @@ jobs:
           format: sarif
           gh-code-scanning-compat: true
 
+      # Paso 3: Subir archivo SARIF a GitHub
       - name: Upload SARIF results file
         uses: github/codeql-action/upload-sarif@v3
         with:
