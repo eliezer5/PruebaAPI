@@ -8,4 +8,6 @@ public interface IWarrantyService
     public Task<bool> AddAsync(Garantias garantia);
     public Task<Garantias> PutAsync(Garantias garantia);
     public Task<Garantias> DeleteAsync(int id);
+
+
 }
