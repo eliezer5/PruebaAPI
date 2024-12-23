@@ -11,6 +11,8 @@ public class Garantias
 {
     [Key]
     public int GarantiaId { get; set; }
+
+
     
     public string? Descripcion { get; set; }
     public DateOnly InicioGarantia { get; set; }
