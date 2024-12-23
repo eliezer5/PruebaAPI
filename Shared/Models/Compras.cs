@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Shared.Models;
-[ExcludeFromCodeCoverage]
+
 public class Compras
 {
     [Key]
