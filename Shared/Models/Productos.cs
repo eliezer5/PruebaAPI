@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace Shared.Models;
 
-[ExcludeFromCodeCoverage]
 public class Productos
 {
     [Key]
