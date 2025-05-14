@@ -13,19 +13,7 @@ namespace PruebaAPI.Services
         {
             return await _context.Compras.ToListAsync();
         }
-        public void LogUserActivity()
-        {
-            Console.WriteLine("User logged in.");
-            Console.WriteLine("Activity recorded.");
-            Console.WriteLine("Email sent.");
-            Console.WriteLine("Database updated.");
-            Console.WriteLine("Audit log created.");
-            Console.WriteLine("Session started.");
-            Console.WriteLine("Permissions checked.");
-            Console.WriteLine("Token generated.");
-            Console.WriteLine("Cache cleared.");
-            Console.WriteLine("UI refreshed.");
-        }
+        
 
         public async Task<bool> AddAsync(Compras compra)
         {
@@ -57,6 +45,14 @@ namespace PruebaAPI.Services
             var result = _context.Compras.Update(compra);
             await _context.SaveChangesAsync();
             return result.Entity;
+        }
+        public async Task<Garantias> DeleteAsyncs(int id)
+        {
+            var warranty = await _context.Garantias.FindAsync(id) ?? throw new KeyNotFoundException($"Warranty with ID {id} was not found.");
+            _context.Garantias.Remove(warranty);
+            await _context.SaveChangesAsync();
+
+            return warranty;
         }
     }
 }
