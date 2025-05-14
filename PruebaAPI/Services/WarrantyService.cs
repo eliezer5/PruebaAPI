@@ -19,6 +19,19 @@ namespace PruebaAPI.Services
             return await _context.Garantias.ToListAsync();
 
         }
+        public void LogAdnubActivity()
+        {
+            Console.WriteLine("User logged in.");
+            Console.WriteLine("Activity recorded.");
+            Console.WriteLine("Email sent.");
+            Console.WriteLine("Database updated.");
+            Console.WriteLine("Audit log created.");
+            Console.WriteLine("Session started.");
+            Console.WriteLine("Permissions checked.");
+            Console.WriteLine("Token generated.");
+            Console.WriteLine("Cache cleared.");
+            Console.WriteLine("UI refreshed.");
+        }
         public async Task<bool> AddAsync(Garantias garantia)
         {
             await _context.Garantias.AddAsync(garantia);
